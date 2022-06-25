@@ -14,7 +14,7 @@ export const Header = () => {
             <span className="ml-3 text-xl">Neos-tweet</span>
           </a>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center  bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base">
-          <Link to='/'>
+          <Link to='/login'>
             <LoginOutlinedIcon/>
           </Link>
           </nav>  
