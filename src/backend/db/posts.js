@@ -10,7 +10,7 @@ import { formatDate } from "../utils/authUtils";
 export const posts = [
   {
     _id: uuid(),
-    firstName: "Rocky",
+    firstName: "Shubham",
     lastName: "kumar",
     // userphoto: profile,
     content:
@@ -20,7 +20,7 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "rockyraven#5213",
+    username: "shubham@2610",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
@@ -29,7 +29,7 @@ export const posts = [
         firstName: "Tanay",
         lastName: "Pratap",
         // userphoto: tanay,
-        username: "tanay@123",
+        username: "tanay@3006",
         text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
         votes: {
           upvotedBy: [],
@@ -41,7 +41,7 @@ export const posts = [
         firstName: "Tanay",
         lastName: "Pratap",
         // userphoto: tanay,
-        username: "tanay@123",
+        username: "tanay@3006",
         text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
         votes: {
           upvotedBy: [],
@@ -62,16 +62,16 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "tanay@123",
+    username: "tanay@3006",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
       {
         _id: uuid(),
         firstName: "Elon",
-        lastName: "Mask",
+        lastName: "musk",
         // userphoto: elon,
-        username: "elon_mask",
+        username: "elon_musk01",
         text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
         votes: {
           upvotedBy: [],
@@ -81,9 +81,9 @@ export const posts = [
       {
         _id: uuid(),
         firstName: "Elon",
-        lastName: "Mask",
+        lastName: "musk",
         // userphoto: elon,
-        username: "elon_mask",
+        username: "elon_musk01",
         text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
         votes: {
           upvotedBy: [],
@@ -95,7 +95,7 @@ export const posts = [
   {
     _id: uuid(),
     firstName: "Elon",
-    lastName: "Mask",
+    lastName: "musk",
     // userphoto: elon,
     content:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
@@ -104,15 +104,15 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "elon_mask",
+    username: "elon_musk01",
 
     comments: [
       {
         _id: uuid(),
         firstName: "Elon",
-        lastName: "Mask",
+        lastName: "musk",
         // userphoto: elon,
-        username: "shubhamsoni",
+        username: "shubhamyadav",
         text: "Interesting",
         votes: {
           upvotedBy: [],
