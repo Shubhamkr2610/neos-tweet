@@ -1,5 +1,5 @@
-import { createSlice , createAsyncThunk} from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createSlice , createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
 
 
 export const login= createAsyncThunk( "auth/login" , async (userData, thunkAPI)=>{
@@ -15,6 +15,21 @@ export const login= createAsyncThunk( "auth/login" , async (userData, thunkAPI)=
     }
     
 
+})
+
+export const signup = createAsyncThunk( "auth/signup" , async(userData , thunkAPI)=>{
+  const {userName, firstName, lastName, password} = userData;
+  try {
+    const res = await axios.post("/api/auth/signup", {
+      userName:userName,
+      firstName:firstName,
+      lastName:lastName,
+      password:password
+    }); 
+    return(res.data)
+  } catch (error) {
+    thunkAPI.rejectWithValue(error)
+  }
 })
 
 
@@ -60,6 +75,24 @@ export const authSlice = createSlice({
         state.user= null
         state.encodedToken =null
         state.error = action.payload
+        state.isAuthenticated= false
+    },
+    [signup.pending] : (state) =>{
+        state.user= null
+        state.encodedToken= null
+        state.isAuthenticated= false
+    },
+    [signup.fulfilled] : (state,action) =>{
+        state.user= {...action.payload?.createdUser , password:"************"}
+        state.encodedToken=action.payload?.encodedToken
+        localStorage.setItem("user", JSON.stringify(action.payload.createdUser))
+        localStorage.setItem("encodedToken", JSON.stringify(action.payload.encodedToken))
+        state.isAuthenticated= true
+    },
+    [signup.rejected]: (state,action) =>{
+        state.user= null
+        state.encodedToken= null
+        state.error= action.payload
         state.isAuthenticated= false
     }
   }

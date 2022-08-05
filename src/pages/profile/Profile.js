@@ -26,7 +26,7 @@ import { toast } from 'react-toastify';
             <div className="relative mb-4">
               <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >First name - {user.firstName}</p>
               <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >Last name - {user.lastName}</p>
-              <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >Email - {user.email}</p>
+              <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >User Name - {user.userName}</p>
             </div>
                     
             <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={logoutHandler}>Logout</button>

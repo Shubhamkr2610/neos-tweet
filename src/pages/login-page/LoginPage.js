@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 
 export const LoginPage = () => {
 
-const [username , setUserName] = useState()
-const [password, setPassword] = useState()
+const [username , setUserName] = useState("")
+const [password, setPassword] = useState("")
 
     const dispatch= useDispatch()
     const navigate = useNavigate()
-    const {user,encodedToken, error,isAuthenticated} = useSelector(state=>state.auth)
+    const {user, error,isAuthenticated} = useSelector(state=>state.auth)
     const loginHandler= (username , password)=>{
         dispatch(login({username , password}))
     }
