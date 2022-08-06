@@ -1,18 +1,15 @@
-import './App.css';
+import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { HomePage } from './pages/home-page/HomePage';
-import { Footer, Header } from './components';
-import { LoginPage } from './pages/login-page/LoginPage';
-import { SignupPage } from './pages/signup-page/SignupPage';
-import { Profile } from './pages/profile/Profile';
+import { Footer, Header, PrivateRoute } from "./components";
+import {LoginPage, SignupPage, Profile, HomePage, FeedPage} from "./pages"
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
-import { PrivateRoute } from './components/PrivateRoute';
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   return (
     <>
-     <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
@@ -23,24 +20,20 @@ function App() {
         draggable
         pauseOnHover
       />
-    <div className="app">
-      <Header/>
+      <div className="app">
+        <Header />
         <Routes>
-          
-          <Route path='/login' element={<LoginPage/>} />
-          <Route path='/signup' element={<SignupPage/>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
 
-          <Route element={<PrivateRoute/>}>
-
-          <Route path='/' element={<HomePage/>} />
-          <Route path='/profile' element={<Profile/>} />
-
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
-            
-        
         </Routes>
-    </div>
-    <Footer/>
+      </div>
+      <Footer />
     </>
   );
 }
