@@ -3,7 +3,7 @@ import React from 'react'
 export const Avatar = ({img}) => {
   return (
     <>
-      <img src={img} />  
+      <img className='h-16 w-16 rounded-full' src={img} />  
     </>
   )
 }

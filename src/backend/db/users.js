@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { formatDate } from "../utils/authUtils";
-import {elon, ratantata, shubham, tanay} from '../../assets'
+import {elon, hero, ratantata, tanay} from '../../assets'
 /**
  * User Database can be added here.
  * You can add default users of your wish with different attributes
@@ -14,7 +14,7 @@ export const users = [
     username: "shubham@2610",
     email: "guestuser@gmail.com",
     password: "testuser123",
-    userphoto: shubham,
+    userphoto: hero,
     createdAt: formatDate(),
     updatedAt: formatDate(),
     bio: `Learning web Development at @neogCamp`

@@ -1,39 +1,37 @@
-import React from "react";
+import React from 'react';
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExploreIcon from "@mui/icons-material/Explore";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink } from "react-router-dom";
 
-export const Sidebar = () => {
+
+export const SidebarBottom = () => {
   return (
     <>
-      <div className="flex flex-col m-4 ml-8  gap-1">
+     <div className="flex justify-around items-center h-16 text-blue-600 bg-white 
+     ">
         <NavLink to="/">
-          <div className="hover:text-white  hover:bg-blue-600 rounded p-2 rounded">
+          <div className="flex flex-col ">
             <HomeRoundedIcon sx={{ fontSize: 32 }} />
-            <span className="ml-2">Home</span>
           </div>
         </NavLink>
         <NavLink to="/">
-          <div className="hover:text-white  hover:bg-blue-600 rounded p-2 rounded">
+          <div className="flex flex-col">
             <ExploreIcon sx={{ fontSize: 32 }} />
-            <span className="ml-2">Explore</span>
           </div>
         </NavLink>
         <NavLink to="/">
-          <div className="hover:text-white  hover:bg-blue-600 rounded p-2 rounded">
+          <div className="flex flex-col">
             <BookmarkIcon sx={{ fontSize: 32 }} />
-            <span className="ml-2">Bookmark</span>
           </div>
         </NavLink>
         <NavLink to="/profile">
-          <div className="hover:text-white  hover:bg-blue-600 rounded p-2 rounded">
+          <div className="flex flex-col">
             <PersonIcon sx={{ fontSize: 32 }} />
-            <span className="ml-2">Profile</span>
           </div>
         </NavLink>
       </div>
     </>
-  );
-};
+  )
+}

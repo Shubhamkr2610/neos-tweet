@@ -5,3 +5,5 @@ export { NewPost } from './new-post/NewPost';
 export { Avatar } from './avatar/Avatar';
 export { Sidebar } from './sidebar/Sidebar';
 export { UserSuggestion } from './user-suggestion/UserSuggestion';
+export { Posts } from './posts/Posts';
+export { SidebarBottom } from './sidebar/SidebarBottom';
