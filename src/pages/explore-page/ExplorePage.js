@@ -1,37 +1,25 @@
-import React, { useState } from "react";
-import {
-  NewPost,
-  Posts,
-  Sidebar,
-  SidebarBottom,
-  UserSuggestion,
-} from "../../components";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { createPost, fetchPost } from "../../redux/slices/postSlice";
+import React, { useEffect } from "react";
+import { Posts, Sidebar, SidebarBottom, UserSuggestion } from "../../components";
+import { useSelector , useDispatch } from "react-redux";
+import { fetchPost } from "../../redux/slices/postSlice";
 
-export const FeedPage = () => {
-  const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.post);
-  const { user } = useSelector((state) => state.auth);
+export const ExplorePage = () => {
+    const dispatch = useDispatch()
+    const { posts } = useSelector((state) => state.post);
 
-  useEffect(() => {
-    dispatch(fetchPost());
-  }, []);
-
+    useEffect(() => {
+        dispatch(fetchPost());
+      }, []);
   return (
     <>
       <div className="flex relative">
         <div className="hidden sm:block md:w-[25%] flex  ">
           <Sidebar />
         </div>
+        
         <div className="w-full md:w-[90%] flex flex flex-col m-2 sm:m-4">
-          <NewPost />
-          <h1 className="text-xl mt-2 font-bold">Your Posts</h1>
-
-          {posts
-            ?.filter((post) => post.username === user.username)
-            .map(
+          <h1 className="text-xl mt-2 font-bold">Explore Posts by other users</h1>
+          {posts?.map(
               ({
                 _id,
                 content,
@@ -52,13 +40,6 @@ export const FeedPage = () => {
                 />
               )
             )}
-
-          {posts?.filter((post) => post.username === user.username).length ===
-            0 && (
-            <p className="m-2 text-xl text-center dark:text-slate-100">
-              You do not have any posts.
-            </p>
-          )}
         </div>
         <div className="w-[28%] hidden lg:block flex  bg-yellow-100">
           <UserSuggestion />
@@ -66,6 +47,7 @@ export const FeedPage = () => {
       </div>
       <div className="fixed bottom-0  sm:hidden w-full">
         <SidebarBottom />
+        
       </div>
     </>
   );

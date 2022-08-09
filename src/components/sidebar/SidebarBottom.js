@@ -16,7 +16,7 @@ export const SidebarBottom = () => {
             <HomeRoundedIcon sx={{ fontSize: 32 }} />
           </div>
         </NavLink>
-        <NavLink to="/">
+        <NavLink to="/explore">
           <div className="flex flex-col">
             <ExploreIcon sx={{ fontSize: 32 }} />
           </div>
