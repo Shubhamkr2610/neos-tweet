@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Footer, Header, PrivateRoute } from "./components";
-import {LoginPage, SignupPage, Profile, HomePage, FeedPage} from "./pages"
+import {LoginPage, SignupPage, Profile, HomePage, FeedPage, ExplorePage} from "./pages"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,6 +30,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/feed" element={<FeedPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="explore" element={<ExplorePage/>} />
           </Route>
         </Routes>
       </div>
