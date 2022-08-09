@@ -12,7 +12,7 @@ export const HomePage = () => {
           </h1>
           <p className="mb-14 leading-relaxed">About Neos-tweet Social Network: With Neos-tweet Social Network you can easily and simply create your own personal social network. With Neos-tweet Social Network you can publish posts, read the posts of friends, to have a personal conversation with your friends , and more. Neos-tweet Social Network application is built using  react and redux. </p>
           <div className="flex justify-center">
-            <Link className="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-4xl" to="/">Explore</Link>
+            <Link className="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-4xl" to="/feed">Explore</Link>
           </div>
         </div>
         <div className="lg:max-w-lg lg:w-full md:w-1/4 w-5/6">
