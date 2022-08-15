@@ -7,3 +7,4 @@ export { Sidebar } from './sidebar/Sidebar';
 export { UserSuggestion } from './user-suggestion/UserSuggestion';
 export { Posts } from './posts/Posts';
 export { SidebarBottom } from './sidebar/SidebarBottom';
+export { EditModal } from './modal/EditModal';

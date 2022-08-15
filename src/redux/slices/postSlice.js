@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const fetchPost = createAsyncThunk(
   "post/fetchPost",
@@ -8,14 +9,13 @@ export const fetchPost = createAsyncThunk(
       const res = await axios.get("/api/posts");
       return res.data.posts;
     } catch (error) {
-      console.log(error);
       thunkAPI.rejectedWithValue(error);
     }
   }
 );
 
 export const createPost = createAsyncThunk(
-  "post/create",
+  "/post/create",
   async (data, thunkAPI) => {
     const { text, encodedToken } = data;
     try {
@@ -36,9 +36,8 @@ export const createPost = createAsyncThunk(
 );
 
 export const deletePost = createAsyncThunk(
-  "post/delete",
+  "/post/delete",
   async (data, thunkAPI) => {
-    console.log(data);
     const { token, postId } = data;
     try {
       const { data } = await axios.delete(`/api/posts/${postId}`, {
@@ -46,9 +45,77 @@ export const deletePost = createAsyncThunk(
           authorization: token,
         },
       });
-      return data.posts;
+      toast.error("Post deleted successfully");
+      return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectedWithValue(error);
+    }
+  }
+);
+
+export const likePost = createAsyncThunk(
+  "/post/like",
+  async (data, thunkAPI) => {
+    const { postId, token } = data;
+    try {
+      const { data } = await axios.post(
+        `/api/posts/like/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      toast.success("Post liked successfully");
+      return data.posts.reverse();
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const dislikePost = createAsyncThunk(
+  "/post/dislike",
+  async (data, thunkAPI) => {
+    const { token, postId } = data;
+    try {
+      const { data } = await axios.post(
+        `/api/posts/dislike/${postId}`,
+        {},
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      toast.error("Post disliked successfully");
+      return data.posts.reverse();
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const editPost = createAsyncThunk(
+  "/posts/edit",
+  async (data, thunkAPI) => {
+    const { postId, editedText, token } = data;
+
+    try {
+      const { data } = await axios.post(
+        `/api/posts/edit/${postId}`,
+        { postData: editedText },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      toast.success("Post edited successfully");
+      return data.posts.reverse();
+    } catch (error) {
+      thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -100,21 +167,42 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.posts = null;
     },
-
-    // below code is for future use
-
-    // [editPost.pending]:(state)=>{
-    //     state.error= null
-    //     state.posts= null
-    // },
-    // [editPost.fulfilled]:(state,action)=>{
-    //     state.error= null
-    //     state.posts= action.payload
-    // },
-    // [editPost.rejected]:(state, action)=>{
-    //     state.error= action.payload
-    //     state.posts= null
-    // },
+    [likePost.pending]: (state) => {
+      state.error = null;
+      state.posts = null;
+    },
+    [likePost.fulfilled]: (state, action) => {
+      state.error = null;
+      state.posts = action.payload;
+    },
+    [likePost.rejected]: (state, action) => {
+      state.error = action.error;
+      state.posts = null;
+    },
+    [dislikePost.pending]: (state) => {
+      state.error = null;
+      state.posts = null;
+    },
+    [dislikePost.fulfilled]: (state, action) => {
+      state.error = null;
+      state.posts = action.payload;
+    },
+    [dislikePost.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.posts = null;
+    },
+    [editPost.pending]: (state) => {
+      state.error = null;
+      state.posts = null;
+    },
+    [editPost.fulfilled]: (state, action) => {
+      state.error = null;
+      state.posts = action.payload;
+    },
+    [editPost.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.posts = null;
+    },
   },
 });
 
