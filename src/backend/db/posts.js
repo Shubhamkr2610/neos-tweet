@@ -14,7 +14,7 @@ export const posts = [
     lastName: "kumar",
     userphoto:hero,
     content:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+      "I just want you to know that if you are out there and you are being really hard on yourself right now for something that has happened ... it's normal. That is what is going to happen to you in life. No one gets through unscathed. We are all going to have a few scratches on us. Please be kind to yourselves and stand up for yourself, please. For me, becoming isn’t about arriving somewhere or achieving a certain aim. I see it instead as forward motion, a means of evolving, a way to reach continuously toward a better self. The journey doesn't end.",
     likes: {
       likeCount: 0,
       likedBy: [],
@@ -26,11 +26,11 @@ export const posts = [
     comments: [
       {
         _id: uuid(),
-        firstName: "Tanay",
-        lastName: "Pratap",
+        firstName:"Tanay",
+        lastName:"Pratap",
         userphoto: tanay,
         username: "tanaypratap",
-        text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
+        text: "Life will never be perfect. It will never have everything you want. As a software engineer, you should know that a system will always have trade offs. You need to decide what trade offs you can live with and what are you optimizing your life for.",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -38,11 +38,11 @@ export const posts = [
       },
       {
         _id: uuid(),
-        firstName: "Tanay",
-        lastName: "Pratap",
-        userphoto: tanay,
-        username: "tanaypratap",
-        text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque ",
+        firstName: "Elon",
+        lastName: "Musk",
+        userphoto: elon,
+        username: "elonmusk",
+        text: "I think it's very important to have a feedback loop, where you're constantly thinking about what you've done and how you could be doing it better. I think that's the single best piece of advice: constantly think about how you could be doing things better and questioning yourself.",
         votes: {
           upvotedBy: [],
           downvotedBy: [],

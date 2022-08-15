@@ -1,3 +1,4 @@
+export { SmallAvatar } from './avatar/SmallAvatar';
 export { Header } from './header/Header';
 export { Footer } from './footer/Footer';
 export { PrivateRoute } from './PrivateRoute';
@@ -8,3 +9,4 @@ export { UserSuggestion } from './user-suggestion/UserSuggestion';
 export { Posts } from './posts/Posts';
 export { SidebarBottom } from './sidebar/SidebarBottom';
 export { EditModal } from './modal/EditModal';
+export { Comment } from './comment/Comment';
