@@ -4,7 +4,7 @@ import { Avatar } from "../avatar/Avatar";
 import { createPost } from "../../redux/slices/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { elon } from "../../assets";
+import { demouser } from "../../assets";
 
 export const NewPost = () => {
   const [text , setText] =useState("")
@@ -24,7 +24,7 @@ export const NewPost = () => {
     <>
       <div className="rounded w-full p-4 bg-white flex flex-col ">
         <div className="flex items-start">
-          <Avatar img={user.userphoto? user.userphoto: elon}/>
+          <Avatar img={user.userphoto? user.userphoto: demouser}/>
           <input type="text" placeholder="type your thought" value={text} onInput={(e)=>setText(e.target.value)} className="outline-none border p-1 w-full  m-2" />
         </div>
 

@@ -41,7 +41,7 @@ export const ExplorePage = () => {
               )
             )}
         </div>
-        <div className="w-[28%] hidden lg:block flex  bg-yellow-100">
+        <div className="w-[28%] hidden lg:block flex  ">
           <UserSuggestion />
         </div>
       </div>

@@ -118,7 +118,11 @@ export const Posts = ({
               <button onClick={getCommentHandler}>
                 <ModeCommentOutlinedIcon />
               </button>
-              <button onClick={() => setEditModal(!editmodal)}>
+              <button
+                className="disabled:cursor-not-allowed disabled:text-slate-400"
+                onClick={() => setEditModal(!editmodal)}
+                disabled={user.username !== username}
+              >
                 <EditOutlinedIcon />
               </button>
               {menuOn ? (
@@ -140,17 +144,25 @@ export const Posts = ({
           style={{ display: menuOn ? "block" : "none" }}
           className="absolute right-12 bottom-12 bg-blue-200 flex flex-col p-2 rounded"
         >
-          <button
-            className="flex p-2 rounded hover:bg-white"
-            onClick={deletePostHandler}
-          >
-            <DeleteOutlinedIcon />
-            <span className="ml-1">Delete</span>
-          </button>
-          <button className="flex p-2 rounded text-red-500 hover:bg-white">
-            <FlagOutlinedIcon />
-            <span className="ml-1">Report</span>
-          </button>
+          {user.username === username ? (
+            <div>
+              <button
+                className="flex p-2 rounded hover:bg-white"
+                onClick={deletePostHandler}
+              >
+                <DeleteOutlinedIcon />
+                <span className="ml-1">Delete</span>
+              </button>
+              <button className="flex p-2 rounded text-red-500 hover:bg-white">
+                <FlagOutlinedIcon />
+                <span className="ml-1">Report</span>
+              </button>
+            </div>
+          ) : (
+            <button className="flex p-2 rounded hover:bg-white">
+              <span className="ml-1">Follow</span>
+            </button>
+          )}
         </div>
         {/* ===============
         modal for delete the post
@@ -170,7 +182,7 @@ export const Posts = ({
               onInput={(e) => setCommentText(e.target.value)}
             />
             <button
-              className=" relative right-10 text-blue-600 disabled:text-slate-700"
+              className=" relative right-10 text-blue-600 disabled:text-slate-500 disabled:cursor-not-allowed"
               onClick={postCommentHandler}
               disabled={commentText.length === 0}
             >

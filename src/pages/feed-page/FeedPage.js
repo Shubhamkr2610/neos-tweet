@@ -55,12 +55,12 @@ export const FeedPage = () => {
 
           {posts?.filter((post) => post.username === user.username).length ===
             0 && (
-            <p className="m-2 text-xl text-center dark:text-slate-100">
+            <p className="m-2 text-xl text-center text-black">
               You do not have any posts.
             </p>
           )}
         </div>
-        <div className="w-[28%] hidden lg:block flex  bg-yellow-100">
+        <div className="w-[28%] hidden lg:block flex">
           <UserSuggestion />
         </div>
       </div>

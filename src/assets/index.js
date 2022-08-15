@@ -4,6 +4,6 @@ import logo from './neos-twitt-logo1.jpg';
 import hero from './hero.jpg';
 import elon from './elonmusk.webp';
 import tanay from './tanay.jpg';
-import ratantata from './ratantata.webp'
-
-export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata}
+import ratantata from './ratantata.webp';
+import demouser from './demouser.png';
+export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, demouser }
