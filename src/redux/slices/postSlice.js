@@ -90,7 +90,7 @@ export const dislikePost = createAsyncThunk(
         }
       );
       toast.error("Post disliked successfully");
-      return data.posts.reverse();
+      return data.posts;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -113,7 +113,7 @@ export const editPost = createAsyncThunk(
         }
       );
       toast.success("Post edited successfully");
-      return data.posts.reverse();
+      return data.posts;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }

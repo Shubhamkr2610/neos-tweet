@@ -1,38 +1,121 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
-import { logout } from '../../redux/slices/authSlice';
-import { useDispatch } from 'react-redux/es/exports';
-import {useNavigate} from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  Posts,
+  Sidebar,
+  SidebarBottom,
+  UserSuggestion,
+} from "../../components";
+import { demouser } from "../../assets";
+import { fetchPost } from "../../redux/slices/postSlice";
 
+export const Profile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.post);
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(fetchPost());
+  }, []);
 
-    export const Profile = () => {
-        const dispatch = useDispatch();
-        const navigate = useNavigate()
-        const {user} = useSelector((state)=> state.auth)
-
-        const logoutHandler = ()=>{
-            dispatch(logout())
-            toast.error("Logged out successfully")
-            navigate("/") 
-        }
+  var totalPostOfUser = posts?.filter((item) => item.username === user.username);
+  const logoutHandler = () => {
+    dispatch(logout());
+    toast.error("Logged out successfully");
+    navigate("/");
+  };
   return (
     <>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-20  flex flex-wrap justify-center items-center">
-          <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col   w-full mt-10 md:mt-0">
-            <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Profile</h2>
-                    
-            <div className="relative mb-4">
-              <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >First name - {user.firstName}</p>
-              <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >Last name - {user.lastName}</p>
-              <p  className="w-full bg-white rounded border border-gray-300 text-gray-900 text-lg font-medium  py-2 px-3 leading-8" >User Name - {user.userName}</p>
+      <div>
+        <div className="flex">
+          <div className="hidden sm:block md:w-[25%] flex  ">
+            <Sidebar />
+          </div>
+          <div className="flex flex-col w-full md:w-[90%]  m-2 sm:m-4 rounded ">
+            <div className="flex flex flex-col p-4 bg-white">
+              <div className="relative flex justify-center">
+                <img
+                  src={user.coverphoto}
+                  alt="user background image"
+                  className="w-full h-[12rem]"
+                />
+                <div className="absolute bottom-0 -my-16">
+                  <img
+                    src={user.userphoto ? user.userphoto : demouser}
+                    alt=" user profile pic"
+                    className="border-8 border-white h-32 w-32 rounded-full"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-1 mt-2 -mb-8">
+                <button className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
+                  Edit profile
+                </button>
+              </div>
+
+              <div className="flex flex-col text-lg items-center mt-8">
+                <p className="mt-2 font-bold text-2xl">
+                  {`${user.firstName} ${user.lastName}`}
+                </p>
+                <p className="text-slate-600">{user.username}</p>
+                <p className="text-center ">{user.bio}</p>
+                <a className="text-blue-600 underline ">user website </a>
+                <button onClick={logoutHandler}
+                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+     mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
+                >
+                  Logout
+                </button>
+                {/* below code is for future use  */}
+                {/* <button
+                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+     mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
+                >
+                  Unfollow
+                </button> */}
+
+                <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
+                  <div className="flex flex-col items-center">
+                    <p className="font-bold">0</p>
+                    <p>Following</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="font-bold">{totalPostOfUser?.length}</p>
+                    <p>posts</p>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <p className="font-bold">0</p>
+                    <p>Followers</p>
+                  </div>
+                </div>
+              </div>
             </div>
-                    
-            <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={logoutHandler}>Logout</button>
+            <p className="text-xl mt-2 font-bold">User posts</p>
+            {posts?.filter((item) => item.username === user.username)
+              .map((item) => (
+                <Posts
+                  key={item._id}
+                  _id={item._id}
+                  content={item.content}
+                  username={item.username}
+                  firstName={item.firstName}
+                  lastName={item.lastName}
+                  userphoto={item.userphoto}
+                />
+              )).reverse()}
+          </div>
+          <div className="w-[28%] hidden lg:block flex">
+            <UserSuggestion />
+          </div>
+          <div className="fixed bottom-0  sm:hidden w-full">
+            <SidebarBottom />
           </div>
         </div>
-      </section>
+      </div>
     </>
-  )
-}
+  );
+};
