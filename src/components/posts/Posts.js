@@ -1,13 +1,5 @@
 import React, { useEffect } from "react";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
+import { FavoriteBorderOutlinedIcon, FavoriteIcon, BookmarkBorderOutlinedIcon, EditOutlinedIcon, ModeCommentOutlinedIcon, DeleteOutlinedIcon, MoreVertOutlinedIcon, CloseOutlinedIcon, FlagOutlinedIcon } from "../../icons/Icons";
 import { Avatar } from "../avatar/Avatar";
 import { Link } from "react-router-dom";
 import { useState } from "react";

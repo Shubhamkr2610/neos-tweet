@@ -9,7 +9,6 @@ export const fetchPost = createAsyncThunk(
       const res = await axios.get("/api/posts");
       return res.data.posts;
     } catch (error) {
-      console.log(error);
       thunkAPI.rejectedWithValue(error);
     }
   }
@@ -69,7 +68,6 @@ export const likePost = createAsyncThunk(
         }
       );
       toast.success("Post liked successfully");
-      console.log(data);
       return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -115,8 +113,6 @@ export const editPost = createAsyncThunk(
         }
       );
       toast.success("Post edited successfully");
-      console.log(editedText)
-      console.log( data.posts)
       return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectWithValue(error);

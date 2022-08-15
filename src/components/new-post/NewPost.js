@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import { InsertPhotoOutlinedIcon, GifBoxOutlinedIcon, EmojiEmotionsOutlinedIcon } from "../../icons/Icons";
 import { Avatar } from "../avatar/Avatar";
 import { createPost } from "../../redux/slices/postSlice";
 import { useDispatch, useSelector } from "react-redux";
