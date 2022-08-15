@@ -11,6 +11,7 @@ import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import SendIcon from '@mui/icons-material/Send';
 
 
-export {GifBoxOutlinedIcon, InsertEmoticonIcon, InsertPhotoOutlinedIcon, FavoriteBorderOutlinedIcon, FavoriteIcon, BookmarkBorderOutlinedIcon, EditOutlinedIcon, ModeCommentOutlinedIcon, DeleteOutlinedIcon, MoreVertOutlinedIcon, CloseOutlinedIcon, FlagOutlinedIcon, EmojiEmotionsOutlinedIcon}
+export {GifBoxOutlinedIcon, InsertEmoticonIcon, InsertPhotoOutlinedIcon, FavoriteBorderOutlinedIcon, FavoriteIcon, BookmarkBorderOutlinedIcon, EditOutlinedIcon, ModeCommentOutlinedIcon, DeleteOutlinedIcon, MoreVertOutlinedIcon, CloseOutlinedIcon, FlagOutlinedIcon, EmojiEmotionsOutlinedIcon, SendIcon}

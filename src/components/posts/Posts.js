@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { FavoriteBorderOutlinedIcon, FavoriteIcon, BookmarkBorderOutlinedIcon, EditOutlinedIcon, ModeCommentOutlinedIcon, DeleteOutlinedIcon, MoreVertOutlinedIcon, CloseOutlinedIcon, FlagOutlinedIcon } from "../../icons/Icons";
+import { FavoriteBorderOutlinedIcon, FavoriteIcon, BookmarkBorderOutlinedIcon, EditOutlinedIcon, ModeCommentOutlinedIcon, DeleteOutlinedIcon, MoreVertOutlinedIcon, CloseOutlinedIcon, FlagOutlinedIcon, SendIcon } from "../../icons/Icons";
 import { Avatar } from "../avatar/Avatar";
+import { SmallAvatar } from "../avatar/SmallAvatar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +12,8 @@ import {
   likePost,
 } from "../../redux/slices/postSlice";
 import { EditModal } from "../modal/EditModal";
+import { Comment } from "../comment/Comment";
+import { getCommentOnPost, postComment } from "../../redux/slices/commentSlice";
 
 export const Posts = ({
   content = "",
@@ -24,8 +27,11 @@ export const Posts = ({
   const [menuOn, setMenuOn] = useState(false);
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [editmodal, setEditModal] = useState(false);
+  const [displayComment , setDisplayComment] = useState(false)
+  const [commentText, setCommentText] = useState("");
   const { encodedToken, user } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
+  const {commentList}= useSelector((state)=>state.comment)
   const dispatch = useDispatch();
 
   const portalHandler = () => {
@@ -42,6 +48,16 @@ export const Posts = ({
     dispatch(dislikePost({ postId: _id, token: encodedToken }));
     setIsPostLiked(!isPostLiked);
   };
+
+  const getCommentHandler=()=>{
+    dispatch(getCommentOnPost({token: encodedToken, postId: _id}))
+    setDisplayComment(!displayComment);
+  }
+  
+  const postCommentHandler=()=>{
+    dispatch(postComment({commentText, token: encodedToken, postId: _id}))
+    setCommentText(" ")
+  }
   useEffect(() => {
     const post = posts.find((post) => post._id === _id);
     const liked = post?.likes.likedBy.some((item) => item.id === user.id);
@@ -86,7 +102,7 @@ export const Posts = ({
               <button>
                 <BookmarkBorderOutlinedIcon />
               </button>
-              <button>
+              <button onClick={getCommentHandler}>
                 <ModeCommentOutlinedIcon />
               </button>
               <button onClick={() => setEditModal(!editmodal)}>
@@ -104,6 +120,34 @@ export const Posts = ({
             </div>
           </div>
         </div>
+
+           {/* ===============
+        comment input section 
+        =============== */}
+        <div className="w-full" style={{display:displayComment ? "block": "none"}}>
+        <div className="flex py-4 rounded w-full">
+          <SmallAvatar img={userphoto} />
+          <input
+            className="border-2 outline-none pl-2 pr-12 ml-8 w-[100%]"
+            onInput={(e) => setCommentText(e.target.value)}
+          />
+          <button
+            className=" relative right-10"
+            onClick={postCommentHandler}
+          >
+            <SendIcon />
+          </button>
+        </div>
+        </div>
+
+
+        <div>
+            {commentList?.map((item)=>(<Comment key={item._id}  _id={item._id} firstName={item.firstName} lastName={item.lastName} text={item.text} userphoto={item.userphoto} username={item.username}/>))}
+            
+          </div>
+         {/* ===============
+        comment input section
+        =============== */}
 
         {/* ===============
         modal for delete the post
@@ -127,7 +171,7 @@ export const Posts = ({
         {/* ===============
         modal for delete the post
         =============== */}
-
+          
         {/* ===============
         modal for edit the post
         =============== */}
