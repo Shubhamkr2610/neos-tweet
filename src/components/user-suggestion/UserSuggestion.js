@@ -25,7 +25,6 @@ export const UserProfile = ({ userphoto, firstName, lastName, username }) => {
 export const UserSuggestion = () => {
   const { allUsers } = useSelector((state) => state.auth);
  const  dispatch = useDispatch()
-  console.log(allUsers);
   useEffect(()=>{
     dispatch(getAllUser())
     

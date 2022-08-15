@@ -68,7 +68,7 @@ export const likePost = createAsyncThunk(
         }
       );
       toast.success("Post liked successfully");
-      return data.posts;
+      return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }

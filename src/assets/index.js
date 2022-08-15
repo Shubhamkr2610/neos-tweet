@@ -6,4 +6,6 @@ import elon from './elonmusk.webp';
 import tanay from './tanay.jpg';
 import ratantata from './ratantata.webp';
 import demouser from './demouser.png';
-export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, demouser }
+import shucover from './shucover.jpg';
+import tanaycover from './tanaycover.jpg';
+export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, demouser, shucover, tanaycover }
