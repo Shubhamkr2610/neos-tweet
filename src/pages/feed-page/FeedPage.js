@@ -8,12 +8,13 @@ import {
 } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { createPost, fetchPost } from "../../redux/slices/postSlice";
+import { fetchPost } from "../../redux/slices/postSlice";
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth);
+
 
   useEffect(() => {
     dispatch(fetchPost());

@@ -21,7 +21,7 @@ export const Sidebar = () => {
             <span className="ml-2">Explore</span>
           </div>
         </NavLink>
-        <NavLink to="/">
+        <NavLink to="/bookmark">
           <div className="hover:text-white  hover:bg-blue-600 rounded p-2 rounded">
             <BookmarkIcon sx={{ fontSize: 32 }} />
             <span className="ml-2">Bookmark</span>
