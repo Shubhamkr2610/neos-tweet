@@ -85,7 +85,7 @@ export const Posts = ({
 
   useEffect(() => {
     setIsPostBookmarked(bookmarks?.some((id) => id === _id))
-  }, [bookmarks]);
+  }, []);
   useEffect(() => {
     const post = posts.find((post) => post._id === _id);
     const liked = post?.likes.likedBy.some((item) => item.id === user.id);
