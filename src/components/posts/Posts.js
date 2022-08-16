@@ -10,9 +10,9 @@ import {
   CloseOutlinedIcon,
   FlagOutlinedIcon,
   SendIcon,
+  BookmarkIcon,
 } from "../../icons/Icons";
-import { Avatar } from "../avatar/Avatar";
-import { SmallAvatar } from "../avatar/SmallAvatar";
+import { Avatar, SmallAvatar, Comment, EditModal } from "../../components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,9 +22,8 @@ import {
   dislikePost,
   likePost,
 } from "../../redux/slices/postSlice";
-import { EditModal } from "../modal/EditModal";
-import { Comment } from "../comment/Comment";
 import { getCommentOnPost, postComment } from "../../redux/slices/commentSlice";
+import {addToBookMark, removefromBookMark} from "../../redux/slices/bookmarkSlice";
 
 export const Posts = ({
   content = "",
@@ -39,10 +38,12 @@ export const Posts = ({
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [editmodal, setEditModal] = useState(false);
   const [displayComment, setDisplayComment] = useState(false);
+  const [isPostBookmarked , setIsPostBookmarked] = useState(false);
   const [commentText, setCommentText] = useState("");
   const { encodedToken, user } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
   const { commentList } = useSelector((state) => state.comment);
+  const {bookmarks} = useSelector((state)=>state.bookmark)
   const dispatch = useDispatch();
 
   const portalHandler = () => {
@@ -71,6 +72,19 @@ export const Posts = ({
     );
     setCommentText("");
   };
+
+  const AddToBookMarkHandler = ()=>{
+    dispatch(addToBookMark({token:encodedToken, postId:_id}))
+    setIsPostBookmarked(!isPostBookmarked)
+  }
+  const removefromBookMarkHandler = ()=>{
+    dispatch(removefromBookMark({token:encodedToken, postId:_id}))
+    setIsPostBookmarked(!isPostBookmarked)
+  }
+
+  useEffect(() => {
+    setIsPostBookmarked(bookmarks?.some((id) => id === _id))
+  }, []);
   useEffect(() => {
     const post = posts.find((post) => post._id === _id);
     const liked = post?.likes.likedBy.some((item) => item.id === user.id);
@@ -110,11 +124,13 @@ export const Posts = ({
                 <button onClick={likePostHandler}>
                   <FavoriteBorderOutlinedIcon />
                 </button>
+               
               )}
-
-              <button>
-                <BookmarkBorderOutlinedIcon />
-              </button>
+              {isPostBookmarked?  <button onClick={removefromBookMarkHandler}>
+                <BookmarkIcon  /></button> : <button onClick={AddToBookMarkHandler} >
+                <  BookmarkBorderOutlinedIcon className="text-slate-700" />
+              </button>}
+              
               <button onClick={getCommentHandler}>
                 <ModeCommentOutlinedIcon />
               </button>
