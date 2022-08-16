@@ -74,7 +74,6 @@ export const Posts = ({
   };
 
   const AddToBookMarkHandler = ()=>{
-    console.log("clicked")
     dispatch(addToBookMark({token:encodedToken, postId:_id}))
     setIsPostBookmarked(!isPostBookmarked)
   }
