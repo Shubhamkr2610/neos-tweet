@@ -19,10 +19,11 @@ export const signup = createAsyncThunk(
     const { userName, firstName, lastName, password } = userData;
     try {
       const res = await axios.post("/api/auth/signup", {
-        userName: userName,
+        username: userName,
         firstName: firstName,
         lastName: lastName,
         password: password,
+        // coverphoto: null,
       });
       return res.data;
     } catch (error) {
@@ -39,6 +40,45 @@ export const getAllUser = createAsyncThunk("/auth/users", async (thunkAPI) => {
     thunkAPI.rejectWithValue(error);
   }
 });
+
+export const followUser = createAsyncThunk(
+  "/user/follow",
+  async ( data, thunkAPI) => {
+
+    const {token, userId} = data;
+    
+    try {
+      const {data} = await axios.post(
+        `/api/users/follow/${userId}`,
+        {},
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+        );
+      return data.users;
+    } catch (error) {
+      console.log({error})
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const unFollowUser = createAsyncThunk("/user/follow", async (data, thunkAPI)=>{
+  const {userId, token}= data
+  try {
+    const {data} = await axios.post(`/api/users/unfollow/${userId}`,{},
+    {
+      headers: {
+        authorization: token,
+      },
+    });
+    console.log(data)
+    return data.users;
+  } catch (error) {
+    thunkAPI.rejectWithValue(error)
+  }
+})
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")),
@@ -115,6 +155,30 @@ export const authSlice = createSlice({
     [getAllUser.rejected]: (state, action) => {
       state.allUsers = null;
       state.error = action.error;
+    },
+    [followUser.pending]: (state) => {
+      state.allUsers = null;
+      state.error = null;
+    },
+    [followUser.fulfilled]: (state, action) => {
+      state.allUsers = action.payload;
+      state.error = null;
+    },
+    [followUser.rejected]: (state, action) => {
+      state.allUsers = null;
+      state.error = action.payload;
+    },
+    [unFollowUser.pending]: (state) => {
+      state.allUsers = null;
+      state.error = null;
+    },
+    [unFollowUser.fulfilled]: (state, action) => {
+      state.allUsers = action.payload;
+      state.error = null;
+    },
+    [unFollowUser.rejected]: (state, action) => {
+      state.allUsers = null;
+      state.error = action.payload;
     },
   },
 });

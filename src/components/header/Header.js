@@ -2,12 +2,11 @@ import React from 'react'
 import './header.css'
 import { logo } from '../../assets';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 export const Header = () => {
-  const {user} = useSelector(state=>state.auth)
+  const {user} = useSelector((state)=>state.auth)
   return (
     <>
       <header className="text-gray-600 body-font">
@@ -17,9 +16,9 @@ export const Header = () => {
             <span className="ml-3 text-xl">Neos-tweet</span>
           </Link>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center  bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base">
-
-            {user? <Link to='/profile'>
-            <PersonIcon/>
+          
+          {user? <Link to={`/profile/${user.username}`}>
+            <p className='font-bold'>{`Hi , ${user.firstName}`}</p>
           </Link> : <Link to='/login'>
             <LoginOutlinedIcon/>
           </Link>}

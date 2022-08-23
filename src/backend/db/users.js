@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { formatDate } from "../utils/authUtils";
-import {elon, hero, ratantata, shucover, tanay, tanaycover} from '../../assets'
+import {elon, eloncover, hero, ratantata, shucover, tanay, tanaycover, tatacover} from '../../assets'
 /**
  * User Database can be added here.
  * You can add default users of your wish with different attributes
@@ -41,6 +41,7 @@ export const users = [
     email: "elonmusk@gmail.com",
     password: "elonmusk123",
     userphoto: elon,
+    coverphoto:eloncover,
     createdAt: formatDate(),
     updatedAt: formatDate(),
     bio: ` Founder, CEO, and Chief Engineer at SpaceX; angel investor`
@@ -53,6 +54,7 @@ export const users = [
     email: "ratantata@gmail.com",
     password: "ratantata123",
     userphoto: ratantata,
+    coverphoto:tatacover,
     createdAt: formatDate(),
     updatedAt: formatDate(),
     bio: `chairman of Tata Group`

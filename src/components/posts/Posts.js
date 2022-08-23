@@ -106,7 +106,7 @@ export const Posts = ({
           <Avatar img={userphoto} />
 
           <div className="flex flex-col ml-4 w-full">
-            <Link to="">
+            <Link to={`/profile/${username}`}>
               <div className="flex gap-2">
                 <p className="font-semibold">{`${firstName} ${lastName}`}</p>
                 <p className="text-slate-600">{username}</p>

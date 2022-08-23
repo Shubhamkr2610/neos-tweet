@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/authSlice";
+import { followUser, logout, unFollowUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -9,19 +9,39 @@ import {
   SidebarBottom,
   UserSuggestion,
 } from "../../components";
-import { demouser } from "../../assets";
+import { defaultuser } from "../../assets";
 import { fetchPost } from "../../redux/slices/postSlice";
+import { useParams } from "react-router-dom";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user } = useSelector((state) => state.auth);
+  const { user , allUsers, encodedToken} = useSelector((state) => state.auth);
+  const [profileUser , setProfileUser] = useState({});
+
+  const {profileId} = useParams();
+  var totalPostOfUser = posts?.filter((item) => item.username === profileUser.username);
+
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
-  var totalPostOfUser = posts?.filter((item) => item.username === user.username);
+  useEffect(()=>{
+    const profileUser = allUsers?.filter((user)=>user.username=== profileId)[0]
+    setProfileUser(profileUser)
+  }, [ profileId])
+
+
+
+  const followUserHandler =()=>{
+    dispatch(followUser({userId: profileId, token: encodedToken}))
+  }
+
+  const unfollowUserHandler = ()=>{
+    dispatch(unFollowUser({ userId: profileId, token: encodedToken }));
+  }
+
   const logoutHandler = () => {
     dispatch(logout());
     toast.error("Logged out successfully");
@@ -38,48 +58,51 @@ export const Profile = () => {
             <div className="flex flex flex-col p-4 bg-white">
               <div className="relative flex justify-center">
                 <img
-                  src={user.coverphoto}
+                  src={profileUser.coverphoto}
                   alt="user background image"
                   className="w-full h-[12rem]"
                 />
                 <div className="absolute bottom-0 -my-16">
                   <img
-                    src={user.userphoto ? user.userphoto : demouser}
+                    src={profileUser.userphoto ? profileUser.userphoto : defaultuser}
                     alt=" user profile pic"
                     className="border-8 border-white h-32 w-32 rounded-full"
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-1 mt-2 -mb-8">
-                <button className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
-                  Edit profile
-                </button>
-              </div>
+             
+
+                {profileUser.username=== user.username?    <div className="flex justify-end gap-1 mt-2 -mb-8"><button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
+                Logout
+                </button>  </div>:<div className=" px-4 py-2 "></div>}
+              
+             
 
               <div className="flex flex-col text-lg items-center mt-8">
                 <p className="mt-2 font-bold text-2xl">
-                  {`${user.firstName} ${user.lastName}`}
+                  {`${profileUser.firstName} ${profileUser.lastName}`}
                 </p>
-                <p className="text-slate-600">{user.username}</p>
-                <p className="text-center ">{user.bio}</p>
-                <a className="text-blue-600 underline ">user website </a>
-                <button onClick={logoutHandler}
+                <p className="text-slate-600">{profileUser.username}</p>
+                <p className="text-center ">{profileUser.bio}</p>
+
+                
+                <button onClick={followUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
-                  Logout
+                  Follow
                 </button>
                 {/* below code is for future use  */}
-                {/* <button
+                <button onClick={unfollowUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
                   Unfollow
-                </button> */}
+                </button>
 
                 <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
                   <div className="flex flex-col items-center">
-                    <p className="font-bold">0</p>
+                    <p className="font-bold">{profileUser.following?.length}</p>
                     <p>Following</p>
                   </div>
                   <div className="flex flex-col items-center">
@@ -88,14 +111,14 @@ export const Profile = () => {
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="font-bold">0</p>
+                    <p className="font-bold">{profileUser.followers?.length}</p>
                     <p>Followers</p>
                   </div>
                 </div>
               </div>
             </div>
             <p className="text-xl mt-2 font-bold">User posts</p>
-            {posts?.filter((item) => item.username === user.username)
+            {posts?.filter((item) => item.username === profileUser.username)
               .map((item) => (
                 <Posts
                   key={item._id}
