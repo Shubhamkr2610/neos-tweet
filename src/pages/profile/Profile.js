@@ -12,18 +12,18 @@ import {
 import { demouser } from "../../assets";
 import { fetchPost } from "../../redux/slices/postSlice";
 
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
   const { user , allUsers} = useSelector((state) => state.auth);
-  // console.log(allUsers)
+  console.log(allUsers)
   const [profileUser , setProfileUser] = useState({});
 
-  // let {profileId} = useParams();
-  // console.log(profileId)
+  let {profileId} = useParams();
+  console.log(profileId)
 
   var totalPostOfUser = posts?.filter((item) => item.username === user.username);
 
@@ -31,10 +31,10 @@ export const Profile = () => {
     dispatch(fetchPost());
   }, []);
 
-  // useEffect(()=>{
-  //   const profileUser = allUsers?.filter((user)=>user.username=== profileId)
-  //   setProfileUser(profileUser)
-  // }, [allUsers , profileId])
+  useEffect(()=>{
+    const profileUser = allUsers?.filter((user)=>user.username=== profileId)
+    setProfileUser(profileUser)
+  }, [allUsers , profileId])
 
   console.log(profileUser)
   const logoutHandler = () => {
@@ -109,7 +109,7 @@ export const Profile = () => {
               </div>
             </div>
             <p className="text-xl mt-2 font-bold">User posts</p>
-            {posts?.filter((item) => item.username === user.username)
+            {posts?.filter((item) => item.username === profileUser)
               .map((item) => (
                 <Posts
                   key={item._id}

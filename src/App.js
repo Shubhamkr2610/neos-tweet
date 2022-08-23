@@ -29,8 +29,8 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/feed" element={<FeedPage />} />
-            <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/profile/:profileId" element={<Profile />} /> */}
+            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/profile/:profileId" element={<Profile />} />
             <Route path="/explore" element={<ExplorePage/>} />
             <Route path="/bookmark" element={<BookMark/>} />
           </Route>
