@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +12,31 @@ import {
 import { demouser } from "../../assets";
 import { fetchPost } from "../../redux/slices/postSlice";
 
+// import { useParams } from "react-router-dom";
+
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user } = useSelector((state) => state.auth);
+  const { user , allUsers} = useSelector((state) => state.auth);
+  // console.log(allUsers)
+  const [profileUser , setProfileUser] = useState({});
+
+  // let {profileId} = useParams();
+  // console.log(profileId)
+
+  var totalPostOfUser = posts?.filter((item) => item.username === user.username);
+
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
-  var totalPostOfUser = posts?.filter((item) => item.username === user.username);
+  // useEffect(()=>{
+  //   const profileUser = allUsers?.filter((user)=>user.username=== profileId)
+  //   setProfileUser(profileUser)
+  // }, [allUsers , profileId])
+
+  console.log(profileUser)
   const logoutHandler = () => {
     dispatch(logout());
     toast.error("Logged out successfully");
@@ -38,36 +53,35 @@ export const Profile = () => {
             <div className="flex flex flex-col p-4 bg-white">
               <div className="relative flex justify-center">
                 <img
-                  src={user.coverphoto}
+                  src={profileUser.coverphoto}
                   alt="user background image"
                   className="w-full h-[12rem]"
                 />
                 <div className="absolute bottom-0 -my-16">
                   <img
-                    src={user.userphoto ? user.userphoto : demouser}
+                    src={profileUser.userphoto ? user.userphoto : demouser}
                     alt=" user profile pic"
                     className="border-8 border-white h-32 w-32 rounded-full"
                   />
                 </div>
               </div>
               <div className="flex justify-end gap-1 mt-2 -mb-8">
-                <button className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
-                  Edit profile
+                <button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
+                Logout
                 </button>
               </div>
 
               <div className="flex flex-col text-lg items-center mt-8">
                 <p className="mt-2 font-bold text-2xl">
-                  {`${user.firstName} ${user.lastName}`}
+                  {`${profileUser.firstName} ${profileUser.lastName}`}
                 </p>
-                <p className="text-slate-600">{user.username}</p>
-                <p className="text-center ">{user.bio}</p>
-                <a className="text-blue-600 underline ">user website </a>
-                <button onClick={logoutHandler}
+                <p className="text-slate-600">{profileUser.username}</p>
+                <p className="text-center ">{profileUser.bio}</p>
+                <button 
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
-                  Logout
+                  Follow
                 </button>
                 {/* below code is for future use  */}
                 {/* <button
