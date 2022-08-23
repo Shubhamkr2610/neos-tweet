@@ -4,9 +4,17 @@ import { Footer, Header, PrivateRoute } from "./components";
 import {LoginPage, SignupPage, Profile, HomePage, FeedPage, ExplorePage, BookMark} from "./pages"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAllUser } from "./redux/slices/authSlice";
 
 
 function App() {
+  const {user} = useSelector((state)=> state.auth)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, [user]);
   return (
     <>
       <ToastContainer

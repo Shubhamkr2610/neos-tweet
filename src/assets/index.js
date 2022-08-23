@@ -5,7 +5,9 @@ import hero from './hero.jpg';
 import elon from './elonmusk.webp';
 import tanay from './tanay.jpg';
 import ratantata from './ratantata.webp';
-import demouser from './demouser.png';
+import defaultuser from './demouser.png';
 import shucover from './shucover.jpg';
 import tanaycover from './tanaycover.jpg';
-export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, demouser, shucover, tanaycover }
+import eloncover from './tesla2.jpg';
+import tatacover from './tata.jpg'
+export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, defaultuser, shucover, tanaycover, eloncover, tatacover }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/authSlice";
+import { followUser, logout } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -9,34 +9,34 @@ import {
   SidebarBottom,
   UserSuggestion,
 } from "../../components";
-import { demouser } from "../../assets";
+import { defaultuser } from "../../assets";
 import { fetchPost } from "../../redux/slices/postSlice";
-
 import { useParams } from "react-router-dom";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user , allUsers} = useSelector((state) => state.auth);
-  console.log(allUsers)
+  const { user , allUsers, encodedToken} = useSelector((state) => state.auth);
   const [profileUser , setProfileUser] = useState({});
 
-  let {profileId} = useParams();
-  console.log(profileId)
+  const {profileId} = useParams();
 
-  var totalPostOfUser = posts?.filter((item) => item.username === user.username);
+  var totalPostOfUser = posts?.filter((item) => item.username === profileUser.username);
 
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
   useEffect(()=>{
-    const profileUser = allUsers?.filter((user)=>user.username=== profileId)
+    const profileUser = allUsers?.filter((user)=>user.username=== profileId)[0]
     setProfileUser(profileUser)
-  }, [allUsers , profileId])
+  }, [ profileId])
 
-  console.log(profileUser)
+  const followUserHandler =()=>{
+    dispatch(followUser({userId: profileId, token: encodedToken}))
+  }
+
   const logoutHandler = () => {
     dispatch(logout());
     toast.error("Logged out successfully");
@@ -59,17 +59,19 @@ export const Profile = () => {
                 />
                 <div className="absolute bottom-0 -my-16">
                   <img
-                    src={profileUser.userphoto ? user.userphoto : demouser}
+                    src={profileUser.userphoto ? profileUser.userphoto : defaultuser}
                     alt=" user profile pic"
                     className="border-8 border-white h-32 w-32 rounded-full"
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-1 mt-2 -mb-8">
-                <button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
+             
+
+                {profileUser.username=== user.username?    <div className="flex justify-end gap-1 mt-2 -mb-8"><button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
                 Logout
-                </button>
-              </div>
+                </button>  </div>:<div className=" px-4 py-2 "></div>}
+              
+             
 
               <div className="flex flex-col text-lg items-center mt-8">
                 <p className="mt-2 font-bold text-2xl">
@@ -77,7 +79,7 @@ export const Profile = () => {
                 </p>
                 <p className="text-slate-600">{profileUser.username}</p>
                 <p className="text-center ">{profileUser.bio}</p>
-                <button 
+                <button onClick={followUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
@@ -109,7 +111,7 @@ export const Profile = () => {
               </div>
             </div>
             <p className="text-xl mt-2 font-bold">User posts</p>
-            {posts?.filter((item) => item.username === profileUser)
+            {posts?.filter((item) => item.username === profileUser.username)
               .map((item) => (
                 <Posts
                   key={item._id}
