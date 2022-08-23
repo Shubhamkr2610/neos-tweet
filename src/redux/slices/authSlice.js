@@ -46,7 +46,6 @@ export const followUser = createAsyncThunk(
   async ( data, thunkAPI) => {
 
     const {token, userId} = data;
-    console.log(userId)
     
     try {
       const {data} = await axios.post(
@@ -65,13 +64,21 @@ export const followUser = createAsyncThunk(
     }
   }
 );
-// export const unFollowUser = createAsyncThunk("/user/follow", async (thunkAPI)=>{
-//   try {
-//     const res = await axios.post(`/api/users/unfollow/${followUserId}`)
-//   } catch (error) {
-
-//   }
-// })
+export const unFollowUser = createAsyncThunk("/user/follow", async (data, thunkAPI)=>{
+  const {userId, token}= data
+  try {
+    const {data} = await axios.post(`/api/users/unfollow/${userId}`,{},
+    {
+      headers: {
+        authorization: token,
+      },
+    });
+    console.log(data)
+    return data.users;
+  } catch (error) {
+    thunkAPI.rejectWithValue(error)
+  }
+})
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")),
@@ -158,6 +165,18 @@ export const authSlice = createSlice({
       state.error = null;
     },
     [followUser.rejected]: (state, action) => {
+      state.allUsers = null;
+      state.error = action.payload;
+    },
+    [unFollowUser.pending]: (state) => {
+      state.allUsers = null;
+      state.error = null;
+    },
+    [unFollowUser.fulfilled]: (state, action) => {
+      state.allUsers = action.payload;
+      state.error = null;
+    },
+    [unFollowUser.rejected]: (state, action) => {
       state.allUsers = null;
       state.error = action.payload;
     },

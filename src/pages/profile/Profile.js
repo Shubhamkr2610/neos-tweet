@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { followUser, logout } from "../../redux/slices/authSlice";
+import { followUser, logout, unFollowUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -21,7 +21,6 @@ export const Profile = () => {
   const [profileUser , setProfileUser] = useState({});
 
   const {profileId} = useParams();
-
   var totalPostOfUser = posts?.filter((item) => item.username === profileUser.username);
 
   useEffect(() => {
@@ -33,8 +32,14 @@ export const Profile = () => {
     setProfileUser(profileUser)
   }, [ profileId])
 
+
+
   const followUserHandler =()=>{
     dispatch(followUser({userId: profileId, token: encodedToken}))
+  }
+
+  const unfollowUserHandler = ()=>{
+    dispatch(unFollowUser({ userId: profileId, token: encodedToken }));
   }
 
   const logoutHandler = () => {
@@ -79,6 +84,8 @@ export const Profile = () => {
                 </p>
                 <p className="text-slate-600">{profileUser.username}</p>
                 <p className="text-center ">{profileUser.bio}</p>
+
+                
                 <button onClick={followUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
@@ -86,16 +93,16 @@ export const Profile = () => {
                   Follow
                 </button>
                 {/* below code is for future use  */}
-                {/* <button
+                <button onClick={unfollowUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
                   Unfollow
-                </button> */}
+                </button>
 
                 <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
                   <div className="flex flex-col items-center">
-                    <p className="font-bold">0</p>
+                    <p className="font-bold">{profileUser.following?.length}</p>
                     <p>Following</p>
                   </div>
                   <div className="flex flex-col items-center">
@@ -104,7 +111,7 @@ export const Profile = () => {
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="font-bold">0</p>
+                    <p className="font-bold">{profileUser.followers?.length}</p>
                     <p>Followers</p>
                   </div>
                 </div>
