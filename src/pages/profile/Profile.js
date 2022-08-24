@@ -17,30 +17,40 @@ export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user , allUsers, encodedToken} = useSelector((state) => state.auth);
-  const [profileUser , setProfileUser] = useState({});
+  const { user, allUsers, encodedToken } = useSelector((state) => state.auth);
+  const [profileUser, setProfileUser] = useState({});
+  const [isFollowed , setIsFollowed] = useState(false);
 
-  const {profileId} = useParams();
-  var totalPostOfUser = posts?.filter((item) => item.username === profileUser.username);
+  const { profileId } = useParams();
+  var totalPostOfUser = posts?.filter(
+    (item) => item.username === profileUser.username
+  );
 
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
+  useEffect(() => {
+    const profileUser = allUsers?.filter(
+      (user) => user.username === profileId
+    )[0];
+    setProfileUser(profileUser);
+  }, [profileId]);
+
   useEffect(()=>{
-    const profileUser = allUsers?.filter((user)=>user.username=== profileId)[0]
-    setProfileUser(profileUser)
-  }, [ profileId])
+    const followed = allUsers?.filter((it)=> it.username === user.username)?.following?.some((item)=>item.username === profileId)
+    console.log(followed)
+    console.log(allUsers)
 
+  },[user])
 
+  const followUserHandler = () => {
+    dispatch(followUser({ userId: profileId, token: encodedToken }));
+  };
 
-  const followUserHandler =()=>{
-    dispatch(followUser({userId: profileId, token: encodedToken}))
-  }
-
-  const unfollowUserHandler = ()=>{
+  const unfollowUserHandler = () => {
     dispatch(unFollowUser({ userId: profileId, token: encodedToken }));
-  }
+  };
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -64,19 +74,29 @@ export const Profile = () => {
                 />
                 <div className="absolute bottom-0 -my-16">
                   <img
-                    src={profileUser.userphoto ? profileUser.userphoto : defaultuser}
+                    src={
+                      profileUser.userphoto
+                        ? profileUser.userphoto
+                        : defaultuser
+                    }
                     alt=" user profile pic"
                     className="border-8 border-white h-32 w-32 rounded-full"
                   />
                 </div>
               </div>
-             
 
-                {profileUser.username=== user.username?    <div className="flex justify-end gap-1 mt-2 -mb-8"><button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
-                Logout
-                </button>  </div>:<div className=" px-4 py-2 "></div>}
-              
-             
+              {profileUser.username === user.username ? (
+                <div className="flex justify-end gap-1 mt-2 -mb-8">
+                  <button
+                    onClick={logoutHandler}
+                    className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2"
+                  >
+                    Logout
+                  </button>{" "}
+                </div>
+              ) : (
+                <div className=" px-4 py-2 "></div>
+              )}
 
               <div className="flex flex-col text-lg items-center mt-8">
                 <p className="mt-2 font-bold text-2xl">
@@ -84,21 +104,24 @@ export const Profile = () => {
                 </p>
                 <p className="text-slate-600">{profileUser.username}</p>
                 <p className="text-center ">{profileUser.bio}</p>
-
-                
-                <button onClick={followUserHandler}
+                { profileUser.username !== user.username && <>
+                  <button
+                  onClick={followUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
                   Follow
                 </button>
-                {/* below code is for future use  */}
-                <button onClick={unfollowUserHandler}
+
+                <button
+                  onClick={unfollowUserHandler}
                   className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
                 >
                   Unfollow
                 </button>
+                </> }
+                
 
                 <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
                   <div className="flex flex-col items-center">
@@ -118,7 +141,8 @@ export const Profile = () => {
               </div>
             </div>
             <p className="text-xl mt-2 font-bold">User posts</p>
-            {posts?.filter((item) => item.username === profileUser.username)
+            {posts
+              ?.filter((item) => item.username === profileUser.username)
               .map((item) => (
                 <Posts
                   key={item._id}
@@ -129,7 +153,8 @@ export const Profile = () => {
                   lastName={item.lastName}
                   userphoto={item.userphoto}
                 />
-              )).reverse()}
+              ))
+              .reverse()}
           </div>
           <div className="w-[28%] hidden lg:block flex">
             <UserSuggestion />
