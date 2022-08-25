@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { followUser, logout, unFollowUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -10,37 +9,54 @@ import {
   UserSuggestion,
 } from "../../components";
 import { defaultuser } from "../../assets";
+import { logout } from "../../redux/slices/authSlice";
 import { fetchPost } from "../../redux/slices/postSlice";
+import { followUser, unFollowUser } from "../../redux/slices/userSlice";
 import { useParams } from "react-router-dom";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user , allUsers, encodedToken} = useSelector((state) => state.auth);
-  const [profileUser , setProfileUser] = useState({});
+  const { user, encodedToken } = useSelector((state) => state.auth);
+  const { allUsers } = useSelector((state) => state.user);
 
-  const {profileId} = useParams();
-  var totalPostOfUser = posts?.filter((item) => item.username === profileUser.username);
+  const [profileUser, setProfileUser] = useState({});
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [totalPostOfUser, setTotalPostofUser] = useState(0);
+
+  const { profileId } = useParams();
+
+  useEffect(() => {
+    const totalPost = posts?.filter(
+      (item) => item.username === profileUser.username
+    );
+    setTotalPostofUser(totalPost);
+  }, [posts, profileUser]);
 
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
-  useEffect(()=>{
-    const profileUser = allUsers?.filter((user)=>user.username=== profileId)[0]
-    setProfileUser(profileUser)
-  }, [ profileId])
+  useEffect(() => {
+    const profileUser = allUsers?.filter((user) => user.username === profileId);
+    setProfileUser(profileUser[0]);
+  }, [profileId, allUsers]);
 
+  useEffect(() => {
+    const followed = allUsers
+      ?.find((it) => it.username === user.username)
+      ?.following?.some((item) => item.username === profileId);
+    setIsFollowed(followed);
+  }, [allUsers, profileId]);
 
+  const followUserHandler = () => {
+    dispatch(followUser({ userId: profileId, token: encodedToken }));
+  };
 
-  const followUserHandler =()=>{
-    dispatch(followUser({userId: profileId, token: encodedToken}))
-  }
-
-  const unfollowUserHandler = ()=>{
+  const unfollowUserHandler = () => {
     dispatch(unFollowUser({ userId: profileId, token: encodedToken }));
-  }
+  };
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -64,19 +80,29 @@ export const Profile = () => {
                 />
                 <div className="absolute bottom-0 -my-16">
                   <img
-                    src={profileUser.userphoto ? profileUser.userphoto : defaultuser}
+                    src={
+                      profileUser.userphoto
+                        ? profileUser.userphoto
+                        : defaultuser
+                    }
                     alt=" user profile pic"
                     className="border-8 border-white h-32 w-32 rounded-full"
                   />
                 </div>
               </div>
-             
 
-                {profileUser.username=== user.username?    <div className="flex justify-end gap-1 mt-2 -mb-8"><button onClick={logoutHandler} className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2">
-                Logout
-                </button>  </div>:<div className=" px-4 py-2 "></div>}
-              
-             
+              {profileUser.username === user.username ? (
+                <div className="flex justify-end gap-1 mt-2 -mb-8">
+                  <button
+                    onClick={logoutHandler}
+                    className="flex items-center rounded border-2 border-blue-600 bg-blue-600 text-white px-4 py-2"
+                  >
+                    Logout
+                  </button>{" "}
+                </div>
+              ) : (
+                <div className=" px-4 py-2 "></div>
+              )}
 
               <div className="flex flex-col text-lg items-center mt-8">
                 <p className="mt-2 font-bold text-2xl">
@@ -84,21 +110,27 @@ export const Profile = () => {
                 </p>
                 <p className="text-slate-600">{profileUser.username}</p>
                 <p className="text-center ">{profileUser.bio}</p>
-
-                
-                <button onClick={followUserHandler}
-                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+                {profileUser.username !== user.username && (
+                  <>
+                    {isFollowed ? (
+                      <button
+                        onClick={unfollowUserHandler}
+                        className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
-                >
-                  Follow
-                </button>
-                {/* below code is for future use  */}
-                <button onClick={unfollowUserHandler}
-                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+                      >
+                        Unfollow
+                      </button>
+                    ) : (
+                      <button
+                        onClick={followUserHandler}
+                        className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
-                >
-                  Unfollow
-                </button>
+                      >
+                        Follow
+                      </button>
+                    )}
+                  </>
+                )}
 
                 <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
                   <div className="flex flex-col items-center">
@@ -118,7 +150,8 @@ export const Profile = () => {
               </div>
             </div>
             <p className="text-xl mt-2 font-bold">User posts</p>
-            {posts?.filter((item) => item.username === profileUser.username)
+            {posts
+              ?.filter((item) => item.username === profileUser.username)
               .map((item) => (
                 <Posts
                   key={item._id}
@@ -129,7 +162,8 @@ export const Profile = () => {
                   lastName={item.lastName}
                   userphoto={item.userphoto}
                 />
-              )).reverse()}
+              ))
+              .reverse()}
           </div>
           <div className="w-[28%] hidden lg:block flex">
             <UserSuggestion />
