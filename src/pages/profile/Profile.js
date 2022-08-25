@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { followUser, logout, unFollowUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -10,39 +9,46 @@ import {
   UserSuggestion,
 } from "../../components";
 import { defaultuser } from "../../assets";
+import { logout } from "../../redux/slices/authSlice";
 import { fetchPost } from "../../redux/slices/postSlice";
+import { followUser, unFollowUser } from "../../redux/slices/userSlice";
 import { useParams } from "react-router-dom";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
-  const { user, allUsers, encodedToken } = useSelector((state) => state.auth);
+  const { user, encodedToken } = useSelector((state) => state.auth);
+  const { allUsers } = useSelector((state) => state.user);
+
   const [profileUser, setProfileUser] = useState({});
-  const [isFollowed , setIsFollowed] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [totalPostOfUser, setTotalPostofUser] = useState(0);
 
   const { profileId } = useParams();
-  var totalPostOfUser = posts?.filter(
-    (item) => item.username === profileUser.username
-  );
+
+  useEffect(() => {
+    const totalPost = posts?.filter(
+      (item) => item.username === profileUser.username
+    );
+    setTotalPostofUser(totalPost);
+  }, [posts, profileUser]);
 
   useEffect(() => {
     dispatch(fetchPost());
   }, []);
 
   useEffect(() => {
-    const profileUser = allUsers?.filter(
-      (user) => user.username === profileId
-    )[0];
-    setProfileUser(profileUser);
-  }, [profileId]);
+    const profileUser = allUsers?.filter((user) => user.username === profileId);
+    setProfileUser(profileUser[0]);
+  }, [profileId, allUsers]);
 
-  useEffect(()=>{
-    const followed = allUsers?.filter((it)=> it.username === user.username)?.following?.some((item)=>item.username === profileId)
-    console.log(followed)
-    console.log(allUsers)
-
-  },[user])
+  useEffect(() => {
+    const followed = allUsers
+      ?.find((it) => it.username === user.username)
+      ?.following?.some((item) => item.username === profileId);
+    setIsFollowed(followed);
+  }, [allUsers, profileId]);
 
   const followUserHandler = () => {
     dispatch(followUser({ userId: profileId, token: encodedToken }));
@@ -104,24 +110,27 @@ export const Profile = () => {
                 </p>
                 <p className="text-slate-600">{profileUser.username}</p>
                 <p className="text-center ">{profileUser.bio}</p>
-                { profileUser.username !== user.username && <>
-                  <button
-                  onClick={followUserHandler}
-                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+                {profileUser.username !== user.username && (
+                  <>
+                    {isFollowed ? (
+                      <button
+                        onClick={unfollowUserHandler}
+                        className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
-                >
-                  Follow
-                </button>
-
-                <button
-                  onClick={unfollowUserHandler}
-                  className="rounded border-2 border-blue-600 bg-blue-600 text-white 
+                      >
+                        Unfollow
+                      </button>
+                    ) : (
+                      <button
+                        onClick={followUserHandler}
+                        className="rounded border-2 border-blue-600 bg-blue-600 text-white 
      mt-2 px-4 hover:opacity-75 disabled:cursor-not-allowed"
-                >
-                  Unfollow
-                </button>
-                </> }
-                
+                      >
+                        Follow
+                      </button>
+                    )}
+                  </>
+                )}
 
                 <div className="w-[90%] rounded h-20 mt-4 flex justify-around bg-slate-100 items-center">
                   <div className="flex flex-col items-center">

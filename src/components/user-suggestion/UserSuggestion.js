@@ -24,7 +24,7 @@ export const UserProfile = ({ userphoto, firstName, lastName, username }) => {
 };
 
 export const UserSuggestion = () => {
-  const { allUsers } = useSelector((state) => state.auth);
+  const { allUsers } = useSelector((state) => state.user);
  
   return (
     <>
