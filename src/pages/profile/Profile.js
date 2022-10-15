@@ -166,7 +166,9 @@ export const Profile = () => {
               .reverse()}
             {totalPostOfUser?.length === 0 && <p className="m-2 text-xl text-center text-black">
              Currently there is no post to show .
-            </p>} 
+            </p>}
+
+            {/* --------------> code is for future use   */}
             {/* {posts
               ?.filter((item) => item.username === profileUser.username).length===0 &&  <p className="m-2 text-xl text-center text-black">
               You have doesn't any posts.
