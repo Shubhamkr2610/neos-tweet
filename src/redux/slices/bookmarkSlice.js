@@ -21,6 +21,7 @@ export const fetchBookMark = createAsyncThunk(
 
 export const addToBookMark = createAsyncThunk(
   "/bookmark/add",
+  
   async (data, thunkAPI) => {
     const { token, postId } = data;
     try {
@@ -66,11 +67,18 @@ export const removefromBookMark = createAsyncThunk(
 const initialState = {
   erorr: null,
   bookmarks: null,
+  // isPostBookmarked: false
 };
 export const bookmarkSlice = createSlice({
   name: "bookmark",
   initialState,
-  reducres: {},
+  reducers: {
+
+    // setIsPostBookmarked: (state, action)=>{
+    //   console.log(action)
+    //   state.isPostBookmarked = action.payload
+    // }
+  },
   extraReducers: {
     [fetchBookMark.pending]: (state) => {
       state.error = null;
@@ -111,4 +119,6 @@ export const bookmarkSlice = createSlice({
   },
 });
 
+
+// export const {setIsPostBookmarked} = bookmarkSlice.actions
 export default bookmarkSlice.reducer;

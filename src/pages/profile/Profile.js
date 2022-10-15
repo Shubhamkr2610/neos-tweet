@@ -8,7 +8,7 @@ import {
   SidebarBottom,
   UserSuggestion,
 } from "../../components";
-import { defaultuser } from "../../assets";
+import { defaultuser, democover } from "../../assets";
 import { logout } from "../../redux/slices/authSlice";
 import { fetchPost } from "../../redux/slices/postSlice";
 import { followUser, unFollowUser } from "../../redux/slices/userSlice";
@@ -74,7 +74,7 @@ export const Profile = () => {
             <div className="flex flex flex-col p-4 bg-white">
               <div className="relative flex justify-center">
                 <img
-                  src={profileUser.coverphoto}
+                  src={profileUser.coverphoto? profileUser.coverphoto : democover}
                   alt="user background image"
                   className="w-full h-[12rem]"
                 />
@@ -164,6 +164,14 @@ export const Profile = () => {
                 />
               ))
               .reverse()}
+            {totalPostOfUser?.length === 0 && <p className="m-2 text-xl text-center text-black">
+             Currently there is no post to show .
+            </p>} 
+            {/* {posts
+              ?.filter((item) => item.username === profileUser.username).length===0 &&  <p className="m-2 text-xl text-center text-black">
+              You have doesn't any posts.
+            </p>} */}
+           
           </div>
           <div className="w-[28%] hidden lg:block flex">
             <UserSuggestion />

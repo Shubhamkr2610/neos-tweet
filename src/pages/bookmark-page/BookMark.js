@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { Posts, Sidebar, SidebarBottom, UserSuggestion } from "../../components";
 
 export const BookMark = () => {
-    const {bookmarks} = useSelector((state)=>state.bookmark)
-   
+    const {bookmarks } = useSelector((state)=>state.bookmark)
+  
   return (
     <>
       <div className="flex">
@@ -17,7 +17,7 @@ export const BookMark = () => {
            Bookmarked Posts
           </h1>
            
-          {bookmarks?.map((item)=>((
+          { bookmarks?.length>0? bookmarks?.map((item)=>((
                 <Posts
                   key={item._id}
                   _id={item._id}
@@ -27,7 +27,7 @@ export const BookMark = () => {
                   lastName={item.lastName}
                   userphoto={item.userphoto}
                 />
-              )))}
+              ))) : <h2>"no book mark"</h2> }
         </div>
 
         <div className="w-[28%] hidden lg:block flex  ">

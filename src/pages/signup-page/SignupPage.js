@@ -75,7 +75,7 @@ export const SignupPage = () => {
             )}
             <div className="relative mb-4">
               <label htmlFor="firstname" className="text-m text-gray-900 font-medium ">
-                First Name
+                First name
               </label>
               <input
                 type="text"
@@ -89,12 +89,12 @@ export const SignupPage = () => {
                     firstName: e.target.value,
                   }))
                 }
-                className="w-full bg-white rounded border border-indigo-500 text-base outline-none text-gray-700 py-1 px-3"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
             <div className="relative mb-4">
               <label htmlFor="lastname" className="text-m text-gray-900 font-medium">
-                Last Name
+                Last name
               </label>
               <input
                 type="text"
@@ -108,7 +108,7 @@ export const SignupPage = () => {
                     lastName: e.target.value,
                   }))
                 }
-                className="w-full bg-white rounded border border-indigo-500 text-base outline-none text-gray-700 py-1 px-3"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
             <div className="relative mb-4">
@@ -116,7 +116,7 @@ export const SignupPage = () => {
                 htmlFor="email"
                 className="text-m text-gray-900 font-medium"
               >
-                User Name
+                User name
               </label>
               <input
                 type="email"
@@ -130,7 +130,7 @@ export const SignupPage = () => {
                       userName: e.target.value,
                     }))
                   }
-                className="w-full bg-white rounded border border-indigo-500 text-base outline-none text-gray-700 py-1 px-3"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
             <div className="relative mb-4">
@@ -152,7 +152,7 @@ export const SignupPage = () => {
                       password: e.target.value,
                     }))
                   }
-                className="w-full bg-white rounded border border-indigo-500 text-base outline-none text-gray-700 py-1 px-3"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
             <div className="relative mb-4">
@@ -160,13 +160,13 @@ export const SignupPage = () => {
                 htmlFor="confirmpassword"
                 className="text-m text-gray-900 font-medium"
               >
-                Confirm Password
+                Confirm password
               </label>
               <input
                 type="password"
                 id="confirmpassword"
                 name="full-name"
-                placeholder="Re-Enter your password"
+                placeholder="Re-enter your password"
                 value={formData.confirmPassword}
                 onInput={(e) =>
                     setFormData((prev) => ({
@@ -174,7 +174,7 @@ export const SignupPage = () => {
                       confirmPassword: e.target.value,
                     }))
                   }
-                className="w-full bg-white rounded border border-indigo-500 text-base outline-none text-gray-700 py-1 px-3"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
 

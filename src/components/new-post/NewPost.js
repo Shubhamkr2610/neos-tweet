@@ -30,7 +30,9 @@ export const NewPost = () => {
 
         <div className="flex mb-2 ">
           <div className="flex gap-5 ml-16 self-center text-slate-700">
-          <div>
+
+           {/* -------------> code for future use */}
+          {/* <div>
             <InsertPhotoOutlinedIcon sx={{ fontSize: 32 }} />
           </div>
           <div>
@@ -38,7 +40,7 @@ export const NewPost = () => {
           </div>
           <div>
             <EmojiEmotionsOutlinedIcon sx={{ fontSize: 32 }} />
-          </div>
+          </div> */}
           </div>
           
           <button disabled={text.length === 0 || text === "<p><br></p>"} className=" rounded ml-auto border-4 border-blue-600 bg-blue-600 text-white
