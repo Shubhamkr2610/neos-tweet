@@ -10,7 +10,7 @@ export const HomePage = () => {
         <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center      text-center">
           <h1 className="title-font sm:text-4xl text-2xl mb-4 font-medium text-gray-900">Get connected socially with neos tweet
           </h1>
-          <p className="mb-14 leading-relaxed">About Neos-tweet Social Network: With Neos-tweet Social Network you can easily and simply create your own personal social network. With Neos-tweet Social Network you can publish posts, read the posts of friends, to have a personal conversation with your friends , and more. Neos-tweet Social Network application is built using  react and redux. </p>
+          <p className="mb-14 leading-relaxed">About neos-tweet social network: with neos-tweet social network you can easily and simply create your own personal social network. With neos-tweet social network you can publish posts, read the posts of friends, to have a personal conversation with your friends , and more. Neos-tweet social network application is built using  react and redux. </p>
           <div className="flex justify-center">
             <Link className="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-2xl" to="/feed">Explore</Link>
           </div>

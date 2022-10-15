@@ -7,10 +7,10 @@ import userReducer from '../slices/userSlice';
 
 export const store = configureStore({
   reducer: {
+    bookmark : bookmarkReducer,
     auth : authReducer,
     post : postReducer,
     comment : commentReducer,
-    bookmark : bookmarkReducer,
     user: userReducer
   },
 })

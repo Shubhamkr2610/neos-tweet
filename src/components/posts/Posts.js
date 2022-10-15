@@ -23,7 +23,12 @@ import {
   likePost,
 } from "../../redux/slices/postSlice";
 import { getCommentOnPost, postComment } from "../../redux/slices/commentSlice";
-import {addToBookMark, removefromBookMark} from "../../redux/slices/bookmarkSlice";
+import {
+  addToBookMark,
+  removefromBookMark,
+} from "../../redux/slices/bookmarkSlice";
+import { toast } from "react-toastify";
+import { defaultuser } from "../../assets";
 
 export const Posts = ({
   content = "",
@@ -38,17 +43,19 @@ export const Posts = ({
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [editmodal, setEditModal] = useState(false);
   const [displayComment, setDisplayComment] = useState(false);
-  const [isPostBookmarked , setIsPostBookmarked] = useState(false);
+  const [isPostBookmarked, setIsPostBookmarked] = useState(false);
   const [commentText, setCommentText] = useState("");
   const { encodedToken, user } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
   const { commentList } = useSelector((state) => state.comment);
-  const {bookmarks} = useSelector((state)=>state.bookmark)
+  const { bookmarks } = useSelector((state) => state.bookmark);
   const dispatch = useDispatch();
 
-  const portalHandler = () => {
-    setMenuOn(!menuOn);
-  };
+
+  // ----->code for future use
+  // const portalHandler = () => {
+  //   setMenuOn(!menuOn);
+  // };
   const deletePostHandler = () => {
     dispatch(deletePost({ token: encodedToken, postId: _id }));
   };
@@ -73,20 +80,20 @@ export const Posts = ({
     setCommentText("");
   };
 
-  const AddToBookMarkHandler = ()=>{
-    dispatch(addToBookMark({token:encodedToken, postId:_id}))
-    setIsPostBookmarked(!isPostBookmarked)
-  }
-  const removefromBookMarkHandler = ()=>{
-    dispatch(removefromBookMark({token:encodedToken, postId:_id}))
-    setIsPostBookmarked(!isPostBookmarked)
-  }
+  const AddToBookMarkHandler = () => {
+    dispatch(addToBookMark({ token: encodedToken, postId: _id }));
+    setIsPostBookmarked(!isPostBookmarked);
+  };
+  const removefromBookMarkHandler = () => {
+    dispatch(removefromBookMark({ token: encodedToken, postId: _id }));
+    setIsPostBookmarked(!isPostBookmarked);
+  };
 
   useEffect(() => {
-    setIsPostBookmarked(bookmarks?.some((id) => id === _id))
+    setIsPostBookmarked(bookmarks?.some((id) => id === _id));
   }, []);
   useEffect(() => {
-    const post = posts.find((post) => post._id === _id);
+    const post = posts?.find((post) => post._id === _id);
     const liked = post?.likes.likedBy.some((item) => item.id === user.id);
     setIsPostLiked(liked);
   }, [posts]);
@@ -99,13 +106,17 @@ export const Posts = ({
     };
   });
 
+  const reportPostHandler = () => {
+    toast.error("Post reported");
+    setMenuOn(!menuOn);
+  };
   return (
     <>
-      <div className="relative my-4 bg-white p-4 rounded w-full">
+      <div className=" my-4 bg-white p-4 rounded w-full">
         <div className="flex">
-          <Avatar img={userphoto} />
+          <Avatar img={userphoto? userphoto: defaultuser } />
 
-          <div className="flex flex-col ml-4 w-full">
+          <div className="flex  flex-col ml-4 w-full">
             <Link to={`/profile/${username}`}>
               <div className="flex gap-2">
                 <p className="font-semibold">{`${firstName} ${lastName}`}</p>
@@ -115,7 +126,7 @@ export const Posts = ({
 
             <div className="mt-2 max-w-full">{content}</div>
 
-            <div className="w-full flex justify-around mt-3 text-slate-600">
+            <div className="w-full relative flex justify-around mt-3 text-slate-600">
               {isPostLiked ? (
                 <button onClick={disLikePostHandler}>
                   <FavoriteIcon className="text-red-500" />
@@ -124,13 +135,17 @@ export const Posts = ({
                 <button onClick={likePostHandler}>
                   <FavoriteBorderOutlinedIcon />
                 </button>
-               
               )}
-              {isPostBookmarked?  <button onClick={removefromBookMarkHandler}>
-                <BookmarkIcon  /></button> : <button onClick={AddToBookMarkHandler} >
-                <  BookmarkBorderOutlinedIcon className="text-slate-700" />
-              </button>}
-              
+              {isPostBookmarked ? (
+                <button onClick={removefromBookMarkHandler}>
+                  <BookmarkIcon />
+                </button>
+              ) : (
+                <button onClick={AddToBookMarkHandler}>
+                  <BookmarkBorderOutlinedIcon className="text-slate-700" />
+                </button>
+              )}
+
               <button onClick={getCommentHandler}>
                 <ModeCommentOutlinedIcon />
               </button>
@@ -142,47 +157,51 @@ export const Posts = ({
                 <EditOutlinedIcon />
               </button>
               {menuOn ? (
-                <button onClick={portalHandler}>
+                <button onClick={() => setMenuOn(!menuOn)}>
                   <CloseOutlinedIcon />
                 </button>
               ) : (
-                <button onClick={portalHandler}>
+                <button onClick={() => setMenuOn(!menuOn)}>
                   <MoreVertOutlinedIcon />
                 </button>
               )}
+
+              {/* ===============
+        modal for delete the post
+        =============== */}
+              <div
+                style={{ display: menuOn ? "block" : "none" }}
+                className="absolute right-28 bottom-10 bg-blue-200 flex flex-col p-2 rounded"
+              >
+                {user.username === username ? (
+                  <div>
+                    <button
+                      className="flex p-2 rounded hover:bg-white"
+                      onClick={deletePostHandler}
+                    >
+                      <DeleteOutlinedIcon />
+                      <span className="ml-1">Delete</span>
+                    </button>
+                    <button
+                      className="flex p-2 rounded text-red-500 hover:bg-white"
+                      onClick={reportPostHandler}
+                    >
+                      <FlagOutlinedIcon />
+                      <span className="ml-1">Report</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button className="flex p-2 rounded hover:bg-white">
+                    <span className="ml-1">Follow</span>
+                  </button>
+                )}
+              </div>
+              {/* ===============
+        modal for delete the post
+        =============== */}
             </div>
           </div>
         </div>
-        {/* ===============
-        modal for delete the post
-        =============== */}
-        <div
-          style={{ display: menuOn ? "block" : "none" }}
-          className="absolute right-12 bottom-12 bg-blue-200 flex flex-col p-2 rounded"
-        >
-          {user.username === username ? (
-            <div>
-              <button
-                className="flex p-2 rounded hover:bg-white"
-                onClick={deletePostHandler}
-              >
-                <DeleteOutlinedIcon />
-                <span className="ml-1">Delete</span>
-              </button>
-              <button className="flex p-2 rounded text-red-500 hover:bg-white">
-                <FlagOutlinedIcon />
-                <span className="ml-1">Report</span>
-              </button>
-            </div>
-          ) : (
-            <button className="flex p-2 rounded hover:bg-white">
-              <span className="ml-1">Follow</span>
-            </button>
-          )}
-        </div>
-        {/* ===============
-        modal for delete the post
-        =============== */}
 
         {/* ===============
         comment input section 
@@ -194,7 +213,9 @@ export const Posts = ({
           <div className="flex py-4 rounded w-full">
             <SmallAvatar img={user.userphoto} />
             <input
+              placeholder="reply your thought"
               className="border-2 outline-none pl-2 pr-12 ml-8 w-[100%]"
+              value={commentText}
               onInput={(e) => setCommentText(e.target.value)}
             />
             <button

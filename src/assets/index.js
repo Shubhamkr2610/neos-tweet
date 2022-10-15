@@ -10,4 +10,6 @@ import shucover from './shucover.jpg';
 import tanaycover from './tanaycover.jpg';
 import eloncover from './tesla2.jpg';
 import tatacover from './tata.jpg'
-export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, defaultuser, shucover, tanaycover, eloncover, tatacover }
+import democover from './democover.jpg'
+
+export  {heroImg, heroImg2, logo, hero, elon, tanay, ratantata, defaultuser, shucover, tanaycover, eloncover, tatacover, democover }
