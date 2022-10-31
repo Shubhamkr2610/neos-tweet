@@ -7,12 +7,12 @@ export const fetchBookMark = createAsyncThunk(
   async (data, thunkAPI) => {
     const { token } = data;
     try {
-      const res = await axios.get("/api/users/bookmark", {
+      const {data} = await axios.get("/api/users/bookmark", {
         headers: {
           authorization: token,
         },
       });
-      return res.data
+      return data.bookmarks;
     } catch (error) {
       return thunkAPI.rejectedWithValue(error);
     }
@@ -47,7 +47,7 @@ export const removefromBookMark = createAsyncThunk(
   async (data, thunkAPI) => {
     const { token, postId } = data;
     try {
-      const data = await axios.post(
+      const {data} = await axios.post(
         `/api/users/remove-bookmark/${postId}`,
         {},
         {

@@ -82,16 +82,21 @@ export const Posts = ({
 
   const AddToBookMarkHandler = () => {
     dispatch(addToBookMark({ token: encodedToken, postId: _id }));
-    setIsPostBookmarked(!isPostBookmarked);
+    // setIsPostBookmarked(!isPostBookmarked);
   };
   const removefromBookMarkHandler = () => {
     dispatch(removefromBookMark({ token: encodedToken, postId: _id }));
-    setIsPostBookmarked(!isPostBookmarked);
+    // setIsPostBookmarked(!isPostBookmarked);
   };
 
+
+  // useEffect(() => {
+  //   const present = bookmarks.some((id) => id === _id);
+  //   setisBookmarked(present);
+  // }, [bookmarks]); 
   useEffect(() => {
-    setIsPostBookmarked(bookmarks?.some((id) => id === _id));
-  }, []);
+    setIsPostBookmarked(bookmarks?.some((item) => item._id === _id));
+  }, [bookmarks]);
   useEffect(() => {
     const post = posts?.find((post) => post._id === _id);
     const liked = post?.likes.likedBy.some((item) => item.id === user.id);

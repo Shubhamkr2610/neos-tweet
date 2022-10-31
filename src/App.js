@@ -7,11 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllUser } from "./redux/slices/userSlice";
+import { fetchBookMark } from "./redux/slices/bookmarkSlice";
 
 
 function App() {
-  const {user} = useSelector((state)=> state.auth)
+  const {user, encodedToken} = useSelector((state)=> state.auth)
   const dispatch = useDispatch();
+  useEffect(()=>{
+    if(encodedToken){
+      dispatch(fetchBookMark({token: encodedToken }))
+    }
+  },[encodedToken])
+
   useEffect(() => {
     dispatch(getAllUser());
   }, [user]);
