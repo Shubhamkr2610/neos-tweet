@@ -7,7 +7,7 @@ export const fetchPost = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const res = await axios.get("/api/posts");
-      return res.data.posts;
+      return res.data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectedWithValue(error);
     }
@@ -90,7 +90,7 @@ export const dislikePost = createAsyncThunk(
         }
       );
       toast.error("Post disliked successfully");
-      return data.posts;
+      return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -113,7 +113,7 @@ export const editPost = createAsyncThunk(
         }
       );
       toast.success("Post edited successfully");
-      return data.posts;
+      return data.posts.reverse();
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
